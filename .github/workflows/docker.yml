@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build, Push and Deploy
 
 on:
   push:
@@ -25,3 +25,9 @@ jobs:
           context: .
           push: true
           tags: yohanser06/helloworld:v1
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            https://api.render.com/v1/services/${{ vars.RENDER_SERVICE_ID }}/deploys
